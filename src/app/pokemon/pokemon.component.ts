@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { PokemonService } from '../Services/pokemon.service';
 import { Pokemon } from '../Models/Pokemon';
 import { FormsModule } from '@angular/forms';
-import { forkJoin, map, Observable, tap } from 'rxjs';
+import { forkJoin, map, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-pokemon',
@@ -22,17 +21,28 @@ export class PokemonComponent {
   constructor(private pokemonService: PokemonService) {}
 
   ngOnInit() {
-    this.pokemonService.getAllPokemon().subscribe((data: any) => {
-      this.pokemonList = data.results;
-      this.filteredPokemonList = [...this.pokemonList];
-      this.pokemonList.forEach((pokemon) => {
-        this.pokemonService
-          .getPokemonByName(pokemon.name)
-          .subscribe((data: any) => {
-            pokemon.types = data.types.map((type: any) => type.type.name);
-          });
+    this.pokemonService
+      .getAllPokemon()
+      .pipe(
+        switchMap((data: any) => {
+          this.pokemonList = data.results;
+          this.filteredPokemonList = [...this.pokemonList];
+
+          const pokemonDetailsObservables = this.pokemonList.map((pokemon) =>
+            this.pokemonService.getPokemonByName(pokemon.name).pipe(
+              map((pokemonData: any) => ({
+                ...pokemon,
+                types: pokemonData.types.map((type: any) => type.type.name),
+              }))
+            )
+          );
+
+          return forkJoin(pokemonDetailsObservables);
+        })
+      )
+      .subscribe((detailedPokemonList) => {
+        this.pokemonList = detailedPokemonList;
       });
-    });
   }
 
   // Filter Pokémon based on selected type
