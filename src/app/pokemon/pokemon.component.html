@@ -1,9 +1,18 @@
 <div>
   @if (pokemonList.length > 0) {
     <h2>Pokémon List</h2>
+    <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    (input)="searchPokemon()"
+    placeholder="Search Pokémon"
+  />
+  @if (filteredPokemonList.length === 0){
+    No Pokémon found
+  }
     <ul>
       <li>
-        @for (pokemon of pokemonList; track $index) {
+        @for (pokemon of filteredPokemonList; track $index) {
           <p>{{ pokemon.name }}</p> 
         }
       </li>

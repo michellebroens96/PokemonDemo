@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 import { PokemonService } from '../Services/pokemon.service';
 import { Pokemon } from '../Models/Pokemon';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pokemon',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './pokemon.component.html',
   styleUrl: './pokemon.component.scss',
 })
 export class PokemonComponent {
   pokemonList: Pokemon[] = [];
+  filteredPokemonList: Pokemon[] = [];
+  searchQuery: string = '';
 
   constructor(private pokemonService: PokemonService) {}
 
@@ -21,7 +24,6 @@ export class PokemonComponent {
           name: item.name,
           url: item.url,
         }));
-        console.log(this.pokemonList);
       },
       (error: any) => console.error('Error fetching data', error)
     );
@@ -29,5 +31,12 @@ export class PokemonComponent {
 
   sortPokemonList() {
     this.pokemonList.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  searchPokemon() {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredPokemonList = this.pokemonList.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(query)
+    );
   }
 }
