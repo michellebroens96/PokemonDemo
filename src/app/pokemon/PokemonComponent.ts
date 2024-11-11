@@ -31,8 +31,7 @@ export class PokemonComponent {
   }
 
   sortPokemonList() {
-    this.pokemonList.sort((a, b) => a.name.localeCompare(b.name));
-    this.filteredPokemonList = [...this.pokemonList];
+    this.filteredPokemonList.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   searchPokemon() {
