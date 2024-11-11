@@ -28,14 +28,8 @@ export class PokemonComponent {
       this.pokemonList.forEach((pokemon) => {
         this.pokemonService
           .getPokemonByName(pokemon.name)
-          .pipe(
-            map(
-              (data: any) =>
-                (pokemon.types = data.types.map((type: any) => type.type.name))
-            )
-          )
-          .subscribe((name: string) => {
-            this.filteredPokemonList.push(pokemon);
+          .subscribe((data: any) => {
+            pokemon.types = data.types.map((type: any) => type.type.name);
           });
       });
     });
