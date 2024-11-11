@@ -4,5 +4,5 @@ export interface Pokemon {
   order: number;
   moves: string[];
   url: string;
-  type: string[];
+  types: string;
 }

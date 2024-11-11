@@ -9,6 +9,16 @@
       (input)="searchPokemon()"
       placeholder="Search Pokémon"
       />
+      <div>
+        <select id="type" [(ngModel)]="selectedType" (change)="filterByType()">
+          <option value="">-- Select Type --</option>
+          <option value="grass">Grass</option>
+          <option value="fire">Fire</option>
+          <option value="water">Water</option>
+          <option value="bug">Bug</option>
+          <!-- Add other types here -->
+        </select>
+      </div>
     </div>
     <ul>
       <li class="mt-1 flex flex-col items-start gap-1">

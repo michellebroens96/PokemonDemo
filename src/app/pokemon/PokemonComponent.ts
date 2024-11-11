@@ -14,26 +14,51 @@ export class PokemonComponent {
   pokemonList: Pokemon[] = [];
   filteredPokemonList: Pokemon[] = [];
   searchQuery: string = '';
+  selectedType: string = '';
 
   constructor(private pokemonService: PokemonService) {}
 
   ngOnInit() {
     this.pokemonService.getAllPokemon().subscribe(
       (data: any) => {
-        this.pokemonList = data.results.map((item: any) => ({
-          name: item.name,
-          url: item.url,
-        }));
-        this.filteredPokemonList = [...this.pokemonList];
+        // Get all Pokémon names and their URLs
+        const pokemonPromises = data.results.map(
+          (item: any) =>
+            this.pokemonService.getPokemonByName(item.name).toPromise() // Fetch details by name
+        );
+
+        Promise.all(pokemonPromises).then((pokemonDetails: any) => {
+          this.pokemonList = pokemonDetails.map((pokemon: any) => ({
+            name: pokemon.name,
+            types: pokemon.types.map((type: any) => type.type.name), // Extract type names
+          }));
+          console.log(this.pokemonList);
+          // Initialize filtered list with all Pokémon
+          this.filteredPokemonList = [...this.pokemonList];
+        });
       },
       (error: any) => console.error('Error fetching data', error)
     );
   }
 
+  // Filter Pokémon based on selected type
+  filterByType() {
+    if (this.selectedType) {
+      // Log the selected type and the filtered list of Pokémon
+      this.filteredPokemonList = this.pokemonList.filter((pokemon) => {
+        return pokemon.types.includes(this.selectedType); // Check if the type is in the array
+      });
+    } else {
+      this.filteredPokemonList = [...this.pokemonList];
+    }
+  }
+
+  // Sort Pokémon list alphabetically
   sortPokemonList() {
     this.filteredPokemonList.sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  // Search Pokémon by name
   searchPokemon() {
     const query = this.searchQuery.toLowerCase();
     this.filteredPokemonList = this.pokemonList.filter((pokemon) =>
