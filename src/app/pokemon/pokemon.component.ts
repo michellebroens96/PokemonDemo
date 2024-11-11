@@ -11,9 +11,5 @@ import { PokemonService } from '../Services/pokemon.service';
 export class PokemonComponent {
   constructor(private pokemonService: PokemonService) {}
 
-  ngOnInit() {
-    // this.pokemonService.getAllPokemon().subscribe((data: any) => {
-    //   console.log(data);
-    // });
-  }
+  ngOnInit() {}
 }

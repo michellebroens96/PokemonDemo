@@ -22,15 +22,14 @@ export class PokemonComponent {
     this.pokemonService.getAllPokemon().subscribe(
       (data: any) => {
         // Get all Pokémon names and their URLs
-        const pokemonPromises = data.results.map(
-          (item: any) =>
-            this.pokemonService.getPokemonByName(item.name).toPromise() // Fetch details by name
+        const pokemonPromises = data.results.map((item: any) =>
+          this.pokemonService.getPokemonByName(item.name).toPromise()
         );
 
         Promise.all(pokemonPromises).then((pokemonDetails: any) => {
           this.pokemonList = pokemonDetails.map((pokemon: any) => ({
             name: pokemon.name,
-            types: pokemon.types.map((type: any) => type.type.name), // Extract type names
+            types: pokemon.types.map((type: any) => type.type.name),
           }));
           console.log(this.pokemonList);
           // Initialize filtered list with all Pokémon
@@ -44,9 +43,8 @@ export class PokemonComponent {
   // Filter Pokémon based on selected type
   filterByType() {
     if (this.selectedType) {
-      // Log the selected type and the filtered list of Pokémon
       this.filteredPokemonList = this.pokemonList.filter((pokemon) => {
-        return pokemon.types.includes(this.selectedType); // Check if the type is in the array
+        return pokemon.types.includes(this.selectedType);
       });
     } else {
       this.filteredPokemonList = [...this.pokemonList];
