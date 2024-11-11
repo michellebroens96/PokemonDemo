@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { PokemonService } from '../Services/pokemon.service';
 import { Pokemon } from '../Models/Pokemon';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pokemon',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './pokemon.component.html',
   styleUrl: './pokemon.component.scss',
 })

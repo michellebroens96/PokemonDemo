@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { PokemonComponent } from './pokemon/PokemonComponent';
 
 @Component({
   selector: 'app-root',
