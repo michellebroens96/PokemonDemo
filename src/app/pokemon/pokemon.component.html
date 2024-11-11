@@ -1,1 +1,16 @@
-<p>pokemon works!</p>
+<div>
+  @if (pokemonList.length > 0) {
+    <h2>Pokémon List</h2>
+    <ul>
+      <li>
+        @for (pokemon of pokemonList; track $index) {
+          <p>{{ pokemon.name }}</p> 
+        }
+      </li>
+    </ul>
+
+    <button (click)="sortPokemonList()" class="underline">Sort Alphabetically</button>
+  } @else {
+    <p>No Pokémon data available</p>
+  }
+</div>
