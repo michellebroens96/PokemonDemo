@@ -14,7 +14,7 @@ export class PokemonService {
   }
 
   getAllPokemon(): Observable<Pokemon[]> {
-    return this.http.get<Pokemon[]>(`${this.Url}pokemon/`);
+    return this.http.get<Pokemon[]>(`${this.Url}pokemon?limit=151&offset=0/`);
   }
 
   getPokemonByName(name: string): Observable<Pokemon> {
