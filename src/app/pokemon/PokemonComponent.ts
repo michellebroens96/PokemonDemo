@@ -24,6 +24,7 @@ export class PokemonComponent {
           name: item.name,
           url: item.url,
         }));
+        this.filteredPokemonList = [...this.pokemonList];
       },
       (error: any) => console.error('Error fetching data', error)
     );
@@ -31,6 +32,7 @@ export class PokemonComponent {
 
   sortPokemonList() {
     this.pokemonList.sort((a, b) => a.name.localeCompare(b.name));
+    this.filteredPokemonList = [...this.pokemonList];
   }
 
   searchPokemon() {

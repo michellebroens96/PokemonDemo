@@ -7,13 +7,14 @@
     (input)="searchPokemon()"
     placeholder="Search Pokémon"
   />
-  @if (filteredPokemonList.length === 0){
-    No Pokémon found
-  }
+
     <ul>
       <li>
         @for (pokemon of filteredPokemonList; track $index) {
           <p>{{ pokemon.name }}</p> 
+        }
+        @if (filteredPokemonList.length === 0){
+          No Pokémon found
         }
       </li>
     </ul>
